@@ -99,6 +99,12 @@ $stripe-gap: 0.4rem;
 // One band per board, sharing the height equally however many there are. A flex row rather
 // than a centred box: the picked stripe grows its offer at the end, and the label has to make
 // room for it rather than sit underneath it.
+// PLACEHOLDER slot widths for the two numbers on a stripe — see .level and .board, and the note
+// there about why this is done with widths rather than with tabular figures.
+$level-width: 0.5em;
+$board-width: 2.8em;
+$board-width-wide: 4em;
+
 .stripe {
   flex: 1;
   display: flex;
@@ -196,12 +202,32 @@ $stripe-gap: 0.4rem;
   display: none;
 }
 
-// The rung's number, and the biggest thing on the screen. Nothing here pins its width: the
-// page is set in the monospace face already (see globals), so every digit is the same width
-// and the board info lines up down the whole ladder for free.
+// The board's dimensions, in a slot of their own for the same reason the rung's number has one:
+// "5×5" and "25×25" are different widths in a face with no tabular figures, and the score comes
+// after them. Floored rather than fixed, and with the emoji inside it — .optional is part of
+// what has to fit, which is why the side-panels block below raises this when the 🗺️ comes back.
+//
+// PLACEHOLDER, in em of the stripe's own 1.2rem: five Impact characters come to about 2.5em.
+.board {
+  min-width: $board-width;
+}
+
+// The rung's number, and the biggest thing on the screen.
+//
+// Its width is pinned because the label is set in the loud voice (see the $EMPHASIS rule in
+// globals.scss) and that is Impact, a face with no OpenType feature table at all — so
+// `font-variant: tabular-nums`, the usual answer to "line these digits up", has nothing to
+// switch on and does nothing. Impact's 1 is a good deal narrower than its 3, so without a
+// floor here every stripe's board and score start at a different place down the ladder.
+// A floor rather than a width, so a fallback face with fatter digits pushes the column out
+// instead of running the number into the board beside it.
+//
+// PLACEHOLDER, in em of this element's own 2.2rem so it tracks the size: one Impact digit is
+// about 0.45em, so this is comfortably clear of the widest of them.
 .level {
   font-size: 2.2rem;
   font-weight: bold;
+  min-width: $level-width;
 }
 
 // The same condition the board's own layout switches on — a window with room to spare. See
@@ -216,6 +242,12 @@ $stripe-gap: 0.4rem;
 
   .label {
     gap: 1rem;
+  }
+
+  // The 🗺️ and the space after it are inside the slot, so it has to grow by roughly their width
+  // when they come back. PLACEHOLDER, same units as .board above.
+  .board {
+    min-width: $board-width-wide;
   }
 }
 

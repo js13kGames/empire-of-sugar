@@ -217,18 +217,11 @@ export function LaunchScreenComponent(
       // being seven sizes of the same generator. The board comes second and smaller, as the
       // detail about the level rather than its name, and states both axes because "9" alone
       // reads as an amount of something rather than as how big the map is.
-      // The ladder runs 5 to 25, so the dimensions are three characters wide on the bottom
-      // three rungs and five on the rest. Unpadded, the × — and with it the score that follows
-      // it — would sit at two different places down the column. Padding the short ones out to
-      // the same width is what lines them up; the page is set in a monospace face, so one
-      // character is one exact amount of space and this comes out straight rather than nearly
-      // straight.
-      // The padding goes on the outside of the pair rather than in front of each half, so
-      // "5×5" stays tight around its × and it is the slack that is centred. No-break spaces
-      // because ordinary ones at the edges of a text node collapse away to nothing.
-      const width = `${size}`;
-      const left = width.padStart(2, "\u00a0");
-      const right = width.padEnd(2, "\u00a0");
+      // The ladder runs 5 to 25, so the dimensions are three characters wide on the bottom three
+      // rungs and five on the rest. That used to be padded out here with spaces, which only ever
+      // worked while the page was monospace and quietly stopped being true when it was not. The
+      // slot is held open in the stylesheet now, where it depends on the width of nothing. See
+      // .board, and the note on .level for why tabular figures are not an option on this row.
       // What the level has been played to, filled in by update() — see there for why it is
       // empty at this point and why nothing here ever reads storage.
       scoreLabels[index] = createElement({ tag: "span" });
@@ -244,9 +237,9 @@ export function LaunchScreenComponent(
           // and the label's gap would open up in the middle of the board's own name.
           // The 🗺️ steps aside on a narrow stripe for the same reason the 🦄 does — the
           // dimensions are the information, the emoji is what labels them when there is room.
-          createElement({ tag: "span" }, [
+          createElement({ tag: "span", cssClass: styles.board }, [
             createElement({ tag: "span", cssClass: [CssClass.EMOJI, styles.optional], text: `${MAP_EMOJI} ` }),
-            `${left}×${right}`,
+            `${size}×${size}`,
           ]),
           // Inside the label rather than beside it, so the whole of what a stripe *says* is one
           // thing that gives way as one — the offer is what sits apart from it.
@@ -316,6 +309,11 @@ export function LaunchScreenComponent(
    *
    * A level never finished shows nothing at all rather than "0%": an empty stripe already says
    * it, and a column of zeroes reads as seven failures rather than seven levels to come.
+   *
+   * Left to end where it ends. The tabular figures on .label put every score's *start* in the
+   * same column, which is what a left-aligned column wants; padding the short ones in front to
+   * line the % signs up as well was measured at 5 bytes un-packed and the budget has not got
+   * them. If it ever has, it is one padStart(4, "\u2007") here.
    */
   function update() {
     scoreLabels.forEach((scoreLabel, index) => {
