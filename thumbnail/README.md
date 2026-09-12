@@ -81,20 +81,20 @@ Two things are _not_ scraped and have to be kept in step by hand:
 It is laid out to match what `setMapSize` and the placement code in `game-map.ts` actually
 generate, so it is a plausible board rather than a pretty arrangement:
 
-| on the board             | the rule behind it                                                |
-| ------------------------ | ----------------------------------------------------------------- |
-| 🛁 / 🦄 mirrored corners | each side starts in its own corner                                |
-| 🌈 beside a ⛲ *and* a 🍭 | both bend a unicorn's light; the ⛲ pays 💧, the 🍭 pays 🍬        |
-| one 🗿 beside each of them | every fountain and lollipop loses one of its four lines to one   |
+| on the board               | the rule behind it                                                   |
+| -------------------------- | -------------------------------------------------------------------- |
+| 🛁 / 🦄 mirrored corners   | each side starts in its own corner                                   |
+| 🌈 beside a ⛲ _and_ a 🍭  | both bend a unicorn's light; the ⛲ pays 💧, the 🍭 pays 🍬          |
+| one 🗿 beside each of them | every fountain and lollipop loses one of its four lines to one       |
 | no 🗿 touching two of them | each places its own, and a later one keeps off boulders already down |
-| ⛲ and 🍭 rarely adjacent | they share a ring only on `SHARES_RING` (0.3) of placements        |
-| twice as many 🍭 as ⛲   | `TREE_COUNT` is `tiles/27`, `FOUNTAIN_COUNT` is `tiles/54`         |
-| 🚿 dead centre           | `getTile(map, { x: middle, y: middle })` — the contested tub site |
-| 🍩 ×2, far apart         | donuts are a portal _pair_ or nothing                             |
-| 🍮 ~1 per 12 tiles       | `CUSTARD_COUNT`                                                   |
-| 🎁 ~1 per 45 tiles       | `CHEST_DENSITY`                                                   |
-| ☁️ in two corners        | the fog, where neither side has walked yet                        |
-| inverted glyphs          | the opponent's three objects — `getSide()` and `.dark`            |
+| ⛲ and 🍭 rarely adjacent  | they share a ring only on `SHARES_RING` (0.3) of placements          |
+| twice as many 🍭 as ⛲     | `TREE_COUNT` is `tiles/27`, `FOUNTAIN_COUNT` is `tiles/54`           |
+| 🚿 dead centre             | `getTile(map, { x: middle, y: middle })` — the contested tub site    |
+| 🍩 ×2, far apart           | donuts are a portal _pair_ or nothing                                |
+| 🍮 ~1 per 12 tiles         | `CUSTARD_COUNT`                                                      |
+| 🎁 ~1 per 45 tiles         | `CHEST_DENSITY`                                                      |
+| ☁️ in two corners          | the fog, where neither side has walked yet                           |
+| inverted glyphs            | the opponent's three objects — `getSide()` and `.dark`               |
 
 The densities are read against a 40-tile crop of a board big enough to have a rival at all
 (`RIVAL_SIZE` is 17), which is why both sides appear on it.
