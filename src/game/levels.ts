@@ -45,17 +45,20 @@ export const LEVEL_SEEDS = [10, 32, 2, 14, 24, 31, 7];
 /**
  * What 100% is worth on each level: the best run played on that board.
  *
- * **PLACEHOLDER, and a weaker claim than usual right now.** These were Almut's own bests, which
- * is what the number is *for* — full marks as "as well as this board has ever been played" — but
- * those bests were set on boards that no longer exist: the lollipop became a light source, the
- * fountains halved, every source took a boulder, and the seeds were re-picked underneath them.
- * So these are the shipped bot's best tie-break roll on each board (BOT_MAX_SCORES below),
- * which makes full marks temporarily mean "as well as the opponent has ever played it". They go
- * back to being records the moment Almut plays these seven boards.
+ * Records again, and Almut's own: set 2026-09-12 on these seven boards as they now are, so full
+ * marks means "as well as this board has ever been played" rather than the stand-in it was. The
+ * list they replace was the shipped bot's best tie-break roll (BOT_MAX_SCORES below), which stood
+ * in while the boards were younger than any record on them; every rung of it has now been beaten,
+ * by between 3% (level 6) and 23% (level 5). Each target is the old one taken up by the percentage
+ * the run reported, by the rule below, and then to the round hundred: a run that clears the last
+ * cloud scores (rainbows + unicorns) x 100 exactly (see getScore), and the half-percent band a
+ * reported percentage leaves has exactly one multiple of 100 in it on every rung. So these are
+ * the scores themselves rather than a reconstruction of them - 12, 18, 30, 53, 69 and 78 things
+ * built on a board with nothing left under cloud.
  *
  * Level 1 is the exception and always will be: 400 is the board's ceiling — two rainbows, two
  * unicorns, no cloud left (see LEVEL_SEEDS) — so its 100% is perfection rather than a best, and
- * the bot's 384 is a board played nearly perfectly rather than a target.
+ * the run that reads 100% there is a board played out rather than a record to beat.
  *
  * **Updating one after a better run:** multiply the old target by the percentage the run came
  * out at. It pins exactly, and not by luck — the panel rounds the percentage to a whole number,
@@ -67,7 +70,7 @@ export const LEVEL_SEEDS = [10, 32, 2, 14, 24, 31, 7];
  * `npm run levels` re-measures. Read them whenever the economy moves and the ladder has to be
  * re-read: what the bot makes of a board is the one reading of it that does not need playing.
  */
-export const LEVEL_TARGETS = [400, 1000, 1700, 2673, 4320, 6693, 7178];
+export const LEVEL_TARGETS = [400, 1200, 1800, 3000, 5300, 6900, 7800];
 
 /**
  * What the game's own opponent scores on each level, as the two ends of one band: the shipped
