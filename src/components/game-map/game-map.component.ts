@@ -1568,12 +1568,15 @@ export function GameMapComponent(
     // instant, and this is what the instant it ends means. And nothing at all on a random
     // board: its size is a level's, but its map is nobody's, and a score on it has no target to
     // be a share of (see setBestScore).
-    // The target in brackets after the share of it, because the share alone is a number with
-    // nothing behind it: "87%" says how the run went, "87% (6897)" also says what finishing the
-    // job would take — and the score two rows above is in the same units as the figure in the
-    // brackets, so the two can be read against each other.
+    // Written out as the sum it is, in the same grammar as every row above it: what was scored,
+    // what the level asks for, and what the one is of the other. It used to read "88% (1700)",
+    // which left the reader to work out both that the bracketed number was the target and that
+    // the percentage was the one against the other — and a bracket says "aside", not "of".
+    // Repeating the total from the row above is the habit those rows already have with the rate.
     const targetLine =
-      isRunning || isRandom ? [] : [line(TARGET_EMOJI, ` ${getPercent(level, getScore(map, PLAYER))}% (${LEVEL_TARGETS[level]})`)];
+      isRunning || isRandom
+        ? []
+        : [line(TARGET_EMOJI, ` ${getScore(map, PLAYER)} / ${LEVEL_TARGETS[level]} = ${getPercent(level, getScore(map, PLAYER))}%`)];
     // The two ways on, last and under everything the result has to say: the same board again,
     // and the next one. Only once there is a result — mid-run this panel is the score's working,
     // and there is nowhere to go from a run still being played. The top of the ladder has no
@@ -1584,8 +1587,15 @@ export function GameMapComponent(
     // The rival's total gets a row of its own under the player's, and only its total: it is
     // playing off its own clouds, so its working is arithmetic over a board the player has
     // never seen and would explain nothing. What the row is for is the gap.
+    //
+    // Only once there is a result, like the two rows above. While the run is on, the rival's
+    // score is already up in the header beside the player's own, which is where a number that
+    // changes every turn belongs; saying it twice made the working a scoreboard as well, and
+    // the working is meant to answer "where are my points coming from" about one side only.
     const rivalLine =
-      HAS_OPPONENT && HAS_RIVAL ? [line(OBJECT_CONFIG[GameObjectType.DARK_UNICORN].emoji, ` ${getScore(map, RIVAL)}`, true)] : [];
+      HAS_OPPONENT && HAS_RIVAL && !isRunning
+        ? [line(OBJECT_CONFIG[GameObjectType.DARK_UNICORN].emoji, ` ${getScore(map, RIVAL)}`, true)]
+        : [];
 
     scoreBoard.replaceChildren(
       line(EXPLORE_EMOJI, ` ${rate}%`),
