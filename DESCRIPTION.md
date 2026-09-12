@@ -10,9 +10,9 @@ A turn-based game of light and sugar on a board hidden under clouds.
 
 ## 🤖 On the use of AI
 
-A deliberate split of roles:
+A deliberate split of roles, and it seems fair to say in which way:
 
-- **Mine**: every design decision (ideas, theme, mechanics, economy, balancing) and the template from my 2025 entry, size tricks included.
+- **Mine**: every design decision (ideas, theme, mechanics, economy, balancing) and the [template](https://github.com/mxlle/js13k-base) from my 2025 entry, size tricks included.
 - **Claude Code's**: the implementation, byte-golfing, and the bot I balanced against.
 
 ## 🎵 Credits

@@ -84,9 +84,12 @@ generate, so it is a plausible board rather than a pretty arrangement:
 | on the board             | the rule behind it                                                |
 | ------------------------ | ----------------------------------------------------------------- |
 | 🛁 / 🦄 mirrored corners | each side starts in its own corner                                |
-| ⛲ with a 🍭 beside it   | a tree grows next to every fountain at generation                 |
-| 🌈 only next to a ⛲     | a rainbow is cast by a unicorn standing beside a fountain         |
-| 🪣 dead centre           | `getTile(map, { x: middle, y: middle })` — the contested tub site |
+| 🌈 beside a ⛲ *and* a 🍭 | both bend a unicorn's light; the ⛲ pays 💧, the 🍭 pays 🍬        |
+| one 🗿 beside each of them | every fountain and lollipop loses one of its four lines to one   |
+| no 🗿 touching two of them | each places its own, and a later one keeps off boulders already down |
+| ⛲ and 🍭 rarely adjacent | they share a ring only on `SHARES_RING` (0.3) of placements        |
+| twice as many 🍭 as ⛲   | `TREE_COUNT` is `tiles/27`, `FOUNTAIN_COUNT` is `tiles/54`         |
+| 🚿 dead centre           | `getTile(map, { x: middle, y: middle })` — the contested tub site |
 | 🍩 ×2, far apart         | donuts are a portal _pair_ or nothing                             |
 | 🍮 ~1 per 12 tiles       | `CUSTARD_COUNT`                                                   |
 | 🎁 ~1 per 45 tiles       | `CHEST_DENSITY`                                                   |
@@ -95,6 +98,10 @@ generate, so it is a plausible board rather than a pretty arrangement:
 
 The densities are read against a 40-tile crop of a board big enough to have a rival at all
 (`RIVAL_SIZE` is 17), which is why both sides appear on it.
+
+**Re-read this table after a rules change.** It was written when a lollipop tree was scenery that
+a rainbow fed, and every line about light in it went stale the day the lollipop became the second
+thing a unicorn can shine through (2026-09-12).
 
 ## Gotchas
 

@@ -130,8 +130,8 @@
           cols: [69, 160, 251],
           rows: [69, 160, 251],
           board: [
-            ["🍭", "🍩", "🍮"],
-            ["⛲", "🌈", "🎁"],
+            ["🌈", "🗿", "🍮"],
+            ["🍭", "⛲", "🎁"],
             ["🍩", "🛁", "🍭"],
           ],
           hero: { emoji: "🦄", size: 158, x: 248, y: 250 },
@@ -142,6 +142,12 @@
          * be laid out the way the generator actually lays one out — see README.md
          * for which rule puts what where. The thumbnail's corner unicorn is carried
          * over so the two pictures read as one entry.
+         *
+         * All three rainbows here are cast rather than decorative, and between them they show
+         * the whole of the game's economy: 🦄(1,4) through 🍭(2,3) onto 🌈(3,2) is the candy
+         * line-up, 🦄D(6,0) through ⛲(5,0) onto 🌈D(4,0) is the rival doing the water one, and
+         * the hero unicorn in the corner casts the third through ⛲(6,4) onto 🌈(5,4) — which is
+         * why that corner is kept clear of everything else.
          *
          * A trailing "D" on a cell marks it as the opponent's: it is drawn through
          * invert(1), which is what the game does to the rival's three objects. */
@@ -154,11 +160,11 @@
           cols: [99, 185, 271, 357, 443, 529, 615, 701],
           rows: [78, 164, 250, 336, 422],
           board: [
-            ["☁️", "", "🍭", "", "", "⛲", "🌈D", "🛁D"],
-            ["☁️", "", "", "🍮", "", "🍭", "🦄D", ""],
-            ["", "🍩", "", "", "🚿", "", "", "🎁"],
-            ["", "🌈", "🌈", "", "", "", "🍩", "☁️"],
-            ["🛁", "🦄", "⛲", "🍭", "🍮", "", "", "☁️"],
+            ["☁️", "🍭", "",  "", "🌈D", "⛲", "🦄D", "🛁D"],
+            ["☁️", "", "", "🍮", "", "🗿", "", "🍩"],
+            ["🍩", "", "", "🌈", "🚿", "", "", "🎁"],
+            ["", "🗿", "🍭", "", "", "", "🗿", "☁️"],
+            ["🛁", "🦄", "", "", "🌈", "⛲", "", "☁️"],
           ],
           hero: { emoji: "🦄", size: 210, x: 700, y: 410 },
         },
