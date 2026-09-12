@@ -1,6 +1,6 @@
 export const IS_POKI_ENABLED = import.meta.env.POKI_ENABLED === "true";
-export const IS_DEV = import.meta.env.DEV;
 const IS_JS13K = import.meta.env.IS_JS13K === "true";
+export const IS_DEV = import.meta.env.DEV && !IS_JS13K;
 
 // Feature flags — everything behind a `!IS_JS13K` flag is tree-shaken out of
 // the competition build. Add flags here instead of sprinkling mode checks.
