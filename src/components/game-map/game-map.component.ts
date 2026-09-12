@@ -1701,6 +1701,13 @@ export function GameMapComponent(
     showsScore = false; // the board takes the panel back, exactly as a tap on it does
     if (!hintsEndTurn) select(action!.from);
     render();
+    // Bring the answer into view: on a zoomed board the ring can land anywhere, and a hint the
+    // player has to go looking for is no hint. Centred rather than nearest, so the ring is not
+    // left half under the row's edge; and the unicorn comes along with it, since a step's two
+    // tiles are neighbours and a spawn's are too. Smooth, so the eye can follow where the board
+    // went rather than finding itself somewhere else; the pan is ~10 packed bytes (2026-09-12)
+    // on top of the jump, under test. Quoted: these are not properties terser knows to leave alone.
+    if (hintIndex !== undefined) tileElements[hintIndex].scrollIntoView({ "behavior": "smooth", "block": "center", "inline": "center" });
   }
 
   /** Drops the hint: anything the player does next is an answer to the question it was asking. */
@@ -2217,6 +2224,11 @@ export function GameMapComponent(
     refreshAdvice(); // after resetBot, so the opening advice is not built on the last board's plans
     render();
     applyZoom(true); // the map row can only be measured once it is on the page, so not before here
+    // Back to the player's own corner. The row keeps its offsets across a board change (the
+    // end-of-run buttons never hide it), clamped to the new board's extent, so without this a
+    // level opened from the last one's result showed whatever patch of fog lay at the old
+    // offsets. Top-left is where the tub and the opening unicorn are (see TUB_POSITION).
+    mapArea.scrollTo(0, 0);
 
     pubSubService.publish(PubSubEvent.GAME_START);
   }
