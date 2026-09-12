@@ -361,7 +361,8 @@ export function GameMapComponent(
   // time instead of being worked out again for every tile on every repaint.
   let rivalMark: HTMLElement | undefined;
   // The score's working is open: the breakdown that ends a run, shown mid-run on demand.
-  // It holds the info panel until it is closed or a tile takes the panel over.
+  // It holds the info panel until it is closed or a tile takes the panel over. Only ever true
+  // where HAS_GAMEPLAY_NICE_TO_HAVES is — nothing else can open it.
   let showsScore = false;
   // Dev-only (see createFogButton): the fog switched off, for looking at how a board actually
   // came out. Purely a way of drawing — the model's isRevealed is untouched, so the score, the
@@ -440,12 +441,11 @@ export function GameMapComponent(
   const dropCount = createElement({ tag: "span" });
   const candyCount = createElement({ tag: "span" });
   const scoreCount = createElement({ tag: "span" });
-  // A counter is tappable only when it has somewhere to lead: the extra class is what says so.
+  // A counter leads somewhere only when it is handed somewhere to lead — the ⭐ and its working,
+  // and nothing else. It wears no mark for it: the affordance was a pointer cursor, which the
+  // screens this matters on do not have.
   const counter = (emoji: string, value: HTMLElement, onClick?: () => void) =>
-    createElement({ cssClass: [styles.count, onClick ? styles.tappable : ""], onClick }, [
-      createElement({ tag: "span", cssClass: CssClass.EMOJI, text: emoji }),
-      value,
-    ]);
+    createElement({ cssClass: styles.count, onClick }, [createElement({ tag: "span", cssClass: CssClass.EMOJI, text: emoji }), value]);
   // One button for both ends of a run: end the turn while playing, back to the launch screen
   // once it is over. Which board to play next is that screen's question, not this bar's —
   // there are seven of them now, and they are the stripes of the rainbow over there.
@@ -485,7 +485,10 @@ export function GameMapComponent(
   // The score opens its own working: the same breakdown that closes a run, on demand while
   // it is still being played, so "where are my points coming from" is answerable in time to
   // act on the answer rather than only afterwards.
-  const scoreDisplay = counter(SCORE_EMOJI, scoreCount, toggleScore);
+  //
+  // Outside the competition build only. Handing counter() no handler is the whole of the cut:
+  // with the only reference to toggleScore folded away, the function goes with it.
+  const scoreDisplay = counter(SCORE_EMOJI, scoreCount, HAS_GAMEPLAY_NICE_TO_HAVES ? toggleScore : undefined);
   // What the bar last showed, so a render can tell a number that moved from one that did not.
   // The two incomes by currency, then the score — seeded by render() itself on the first pass
   // of a run (see newRun), so opening a board is not a flurry of pops for numbers that were
@@ -1382,7 +1385,7 @@ export function GameMapComponent(
   function showInfo(index?: number) {
     // The open score view holds the line: INFO_GOAL is already the text that belongs over a
     // breakdown — what scores, and that it has to be built up before the turns run out.
-    if (showsScore) return setInfo(TranslationKey.INFO_GOAL, SCORE_EMOJI);
+    if (HAS_GAMEPLAY_NICE_TO_HAVES && showsScore) return setInfo(TranslationKey.INFO_GOAL, SCORE_EMOJI);
 
     const objectType = index === undefined ? undefined : getObject(index);
 
@@ -1503,9 +1506,15 @@ export function GameMapComponent(
 
   /**
    * Opens the score's working, or closes it again and hands the panel back to the selection.
-   * Only the stacked layout ever gets here: beside the board the working is always up, and the
-   * counter stops taking taps at all (see .tappable under sidePanels) rather than being guarded
-   * here — the media query already knows which layout it is and nothing in here does.
+   * Behind HAS_GAMEPLAY_NICE_TO_HAVES — the competition build has no way in here at all, since
+   * the ⭐ is the only caller.
+   *
+   * The stacked layout is the one this is for. Beside the board the working is always up (the
+   * sidePanels block gives .scoreBoard its own row and `display: grid` outright, so `shown` is
+   * not what decides it there) and a tap can only swap the line above it for the goal line and
+   * back. That used to be switched off with `pointer-events: none` on a class the ⭐ wore; the
+   * class is gone, and so is the switch, because a tap that toggles a line nobody asked about
+   * is not worth a rule to prevent.
    */
   function toggleScore() {
     if (!isRunning || isLocked()) return; // the end-of-run panel is already showing the working

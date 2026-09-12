@@ -339,12 +339,6 @@ $board-column-max: calc(100dvh - 5rem);
   opacity: 0.5;
 }
 
-// A counter that leads somewhere — only the score does, and it opens its own breakdown.
-.tappable {
-  cursor: pointer;
-  user-select: none; // a double tap opens and closes it; it must not select the digits
-}
-
 // The closing turn. Colour rather than position, so nothing in the bar moves — and it is
 // readable from wherever on the screen the player is looking, which is the point: the
 // warning has to land while the turn is being planned, not when the button is pressed.
@@ -1183,13 +1177,6 @@ $board-column-max: calc(100dvh - 5rem);
     grid-area: 3 / 2;
     display: grid;
     max-width: 100%;
-  }
-
-  // With the working always up, the ⭐ counter's tap opens what is already open — so it stops
-  // being a tap at all. Said here rather than guarded in toggleScore: the layout is what decides
-  // it, and the layout is a media query. It is the only tappable counter in the game.
-  .tappable {
-    pointer-events: none; // and with it the pointer cursor, which comes off the header instead
   }
 
   .turnBar {
