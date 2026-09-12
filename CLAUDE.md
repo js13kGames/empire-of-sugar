@@ -41,6 +41,12 @@ implementation support**. Creative decisions stay on Almut's side.
   size, i.e. how much of the budget Roadroller is currently carrying
 - `npm run build-poki` — Poki platform build (Poki SDK, no property mangling)
 - `npm run size` — re-report last `dist.zip` size without rebuilding
+- `npm run size-harness` — what a feature actually *costs*: it patches `src` to take one out,
+  builds the competition pipeline, packs it several times (Roadroller is randomised) and prints
+  the delta to an unpatched baseline. `-- --list` for the variants, `-- baseline zoom-off` for a
+  subset, `-- --repeats=3` to trade accuracy for time. It reverts `src` between variants, so it
+  refuses to start on a dirty tree. **The variants rot** — each patch asserts that it matched, so
+  a stale one fails loudly, but it then has to be rewritten against the code as it is now
 - `npm run bot` — headless balancing runs: the bot plays every board with every strategy
   (see "Dev tools" below). The *harness* is never shipped; the bot itself is — it is the
   opponent (see "The opponent")

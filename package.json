@@ -28,6 +28,7 @@
     "build-js13k-roadroller": "vite build -m js13k && node scripts/inline.js && node scripts/roadroll.js && npm run package -- --track",
     "build-poki": "vite build -m poki && npm run package",
     "bot": "vite build -m bot --ssr scripts/bot-harness.ts --outDir dist-bot --emptyOutDir --logLevel error && node dist-bot/bot.js",
+    "size-harness": "node scripts/size-harness.mjs",
     "sweep": "vite build -m bot --ssr scripts/sweep-harness.ts --outDir dist-bot --emptyOutDir --logLevel error && node dist-bot/bot.js",
     "levels": "vite build -m bot --ssr scripts/level-harness.ts --outDir dist-bot --emptyOutDir --logLevel error && node dist-bot/bot.js",
     "package": "node scripts/package.js",
