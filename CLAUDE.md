@@ -374,21 +374,24 @@ The unusual parts of this codebase exist to make minification maximally effectiv
 ## The submission text
 
 `DESCRIPTION.md` is what goes into the js13k submission form, and **the form caps it at 2048
-bytes** — bytes, not characters, so every emoji in it costs four. It currently sits at 2016, and
-the version before the lollipop change was 2042, so there has never been more than a line spare.
-Measure after editing it:
+UTF-16 code units** — a JavaScript string's `.length`, which is neither bytes nor characters: an
+emoji outside the BMP counts 2, a plain letter 1. Measured against the form itself on 2026-09-12
+(it read 2045 for a file this command prints 2045 for, while the same file is 2102 bytes and 2023
+code points). A trailing newline is not in it — the form gets the text pasted, so strip it:
 
 ```sh
-python3 -c "import io; print(len(io.open('DESCRIPTION.md', encoding='utf-8').read().encode('utf-8')))"
+python3 -c "import io; t=io.open('DESCRIPTION.md', encoding='utf-8').read().rstrip('\n'); print(len(t.encode('utf-16-le')) // 2)"
 ```
+
+It sits at 2045 of 2048, so there is no line spare — anything added now displaces something.
 
 Two rules for what goes in it, both learned by breaking them:
 
 - **It is written in the player's vocabulary, not the code's.** The game says fountain, lollipop,
   bathtub, present. It never says "light source", "site" or "currency", so neither does this.
 - **Anything the game itself says at the moment it matters is not worth a line here.** The tub's
-  own text already states the unicorn price; a bullet repeating it cost 85 of the 2048 bytes to
-  say the same thing earlier and worse.
+  own text already states the unicorn price; a bullet repeating it cost 85 of the 2048 to say the
+  same thing earlier and worse.
 
 ## Conventions
 

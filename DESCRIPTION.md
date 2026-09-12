@@ -2,10 +2,11 @@
 
 _You start with one unicorn, a bathtub in the corner, and no idea what is out there._
 
-A turn-based game of light and sugar on a board hidden under clouds.
+_A turn-based game of light and sugar on a board hidden under clouds._
 
 - **Explained in-game.** Jump right in; come back for the hints below if you get stuck.
 - **Seven boards**, from a two-turn tutorial to 25×25. Best played in order, but none of them is locked.
+- **Every board scores you as a % of my own best score.** The seven are the same for everybody, and 100% is not a cap.
 - **From the fifth board on, a rival**: a dark unicorn from the opposite corner.
 
 ## 🤖 On the use of AI
