@@ -3,7 +3,15 @@ import { createButton, createElement, createElements } from "../../utils/html-ut
 import { LocalStorageKey, setLocalStorageItem } from "../../utils/local-storage";
 import { PubSubEvent, pubSubService } from "../../utils/pub-sub-service";
 import { CssClass } from "../../utils/css-class";
-import { GAME_EMOJI, HAS_COUNTER_POPS, HAS_DEV_TOOLS, HAS_GAMEPLAY_NICE_TO_HAVES, HAS_OPPONENT, HAS_SIDE_CHOICE } from "../../env-utils";
+import {
+  GAME_EMOJI,
+  HAS_COUNTER_POPS,
+  HAS_DEV_TOOLS,
+  HAS_GAMEPLAY_NICE_TO_HAVES,
+  HAS_OPPONENT,
+  HAS_SCORE_POP,
+  HAS_SIDE_CHOICE,
+} from "../../env-utils";
 import { getTranslation } from "../../translations/i18n";
 import { TranslationKey } from "../../translations/translationKey";
 import {
@@ -181,10 +189,10 @@ const POP_SCALE = 1.35;
 // in the negative. A literal because a keyframe cannot read a stylesheet: keep it in step
 // with theme.scss's $danger-color-contrast by hand.
 const SPEND_COLOR = "#c22a4a";
-// The colour a counter takes when what it is worth goes *up* — the income growing, the score
-// climbing. The mirror of SPEND_COLOR, and a literal for the same reason: a keyframe cannot
-// read a stylesheet, so keep it in step with theme.scss's $success-color-light by hand. Only the
-// pop reads it, so it is out of the competition build with the pop (see HAS_COUNTER_POPS).
+// The colour a counter takes when what it is worth goes *up* — the income growing, and the score
+// climbing wherever the score still pops (see HAS_SCORE_POP). The mirror of SPEND_COLOR, and a
+// literal for the same reason: a keyframe cannot read a stylesheet, so keep it in step with
+// theme.scss's $success-color-light by hand.
 const GAIN_COLOR = "#1d8055";
 // PLACEHOLDER spend-feedback timings. One drop rises off the tile per drop paid, so a portal
 // jump throws two and a free step off a custard throws none — the same "one glyph, one unit"
@@ -1186,7 +1194,7 @@ export function GameMapComponent(
     // the clouds, on a rainbow lit and on a unicorn found, and those three are the whole of
     // what the run is for. A snapshot can fall as well as climb — a rainbow that goes out
     // takes its points with it — so this says which way it went in the same two colours.
-    if (!newRun && score !== lastScore) pop(scoreDisplay, score > lastScore ? GAIN_COLOR : SPEND_COLOR);
+    if (HAS_SCORE_POP && !newRun && score !== lastScore) pop(scoreDisplay, score > lastScore ? GAIN_COLOR : SPEND_COLOR);
     lastScore = score;
     newRun = false; // from here on the bar has a past to compare against
     // The rival's, live beside it — and out of the bar entirely on a board without one, the
@@ -1837,8 +1845,11 @@ export function GameMapComponent(
    * Takes the counter rather than an index into the currencies: the score is one of these now,
    * and it is not a currency.
    *
-   * Not in the competition build (HAS_COUNTER_POPS): the guard folds the body away, and with it
-   * every call — the arguments are pure, so terser drops those too, colours and options included.
+   * In every build since 2026-09-13, and the guard stays because it is what makes turning the
+   * whole gesture off again one line: with the flag false it folds the body away and with it
+   * every call, the arguments being pure enough for terser to drop colours and options too.
+   * The score's own call site is gated separately and is out of the competition build — see
+   * HAS_SCORE_POP, which is there because all four pops did not fit and three did.
    */
   function pop(display: HTMLElement, colour?: string) {
     if (!HAS_COUNTER_POPS) return;

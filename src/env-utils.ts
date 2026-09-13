@@ -21,12 +21,19 @@ export const HAS_VISUAL_NICE_TO_HAVES = !IS_JS13K && !IS_POKI_ENABLED;
 // build shows it at the end of a run and not before. The side-panel layout is unaffected
 // either way — it keeps the working up the whole time, and decides that in a media query.
 export const HAS_GAMEPLAY_NICE_TO_HAVES = !IS_JS13K;
-// The counters' reaction to their number changing — the swell-and-settle on the purse, the
-// income and the score (pop() in game-map.component.ts). The flights that carry the money to
-// the counter stay in every build: they are what makes income legible on a big board. The pop
-// on landing is the smaller half of that gesture, and the one the competition build can do
-// without — measured at ~93 packed bytes (2026-09-10). Poki keeps it: no reason not to.
-export const HAS_COUNTER_POPS = !IS_JS13K;
+// The counters' reaction to their number changing — the swell-and-settle on the purse and on
+// the two "(+n)" incomes (pop() in game-map.component.ts). It was out of the competition build
+// until 2026-09-13 and is in every build now: the budget came free, and the pop is the half of
+// the payout gesture that happens where the player is actually looking, the counter, rather
+// than out on the board where the glyphs set off from.
+export const HAS_COUNTER_POPS = true;
+// The score counter's own pop is the one exception, and it is the exception on cost: the three
+// remaining call sites together fit and all four did not (2026-09-13 — the whole feature packed
+// at 13317-13337 against a 13312 limit, and this one call site is ~17 of that). It is also the
+// pop with the least to say: money leaving the purse and an income moving are facts only the
+// counter states, while a score climbing is already being narrated by the glyphs flying into it.
+// Off in the competition build, kept everywhere else.
+export const HAS_SCORE_POP = !IS_JS13K;
 export const HAS_ADVANCED_DEBUGGING = !IS_JS13K;
 // Tools for looking at the game rather than playing it. Tied to the dev server rather than to
 // !IS_JS13K, so they are absent from the friends-&-family build too — that one is played by
