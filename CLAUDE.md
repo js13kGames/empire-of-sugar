@@ -341,9 +341,16 @@ The unusual parts of this codebase exist to make minification maximally effectiv
   every time (`Math.random()`), so checksum-compare it with `NOISE_VOL` temporarily 0; and a
   column's `n` is `[voice][row]` flattened at `patternLen` stride, so a "late note" is often
   a chord.
-- Fonts: system/monospace + Noto Color Emoji. The Noto webfont import lives in
-  `globals.nice2have.scss` so it ships only in non-js13k builds — the competition build must not
-  make external requests (offline rule) and falls back to the system emoji font.
+- Fonts: the two faces in `src/theme.scss` (`$font-family` and `$font-family-special`), plus
+  Noto Color Emoji. Two rules in `globals.scss` are the whole of the typography — **don't restate
+  the faces anywhere else**, in docs or in comments: this bullet used to say "monospace", stayed
+  behind when the pair changed, and cost a session chasing an alignment bug through code comments
+  that repeated the same stale claim (2026-09-13). One consequence worth knowing rather than
+  rediscovering: the loud voice is a display face with no OpenType feature table, so
+  `font-variant: tabular-nums` does nothing on anything wearing `$EMPHASIS` — pin numeric columns
+  with widths instead. The Noto webfont import lives in `globals.nice2have.scss` so it ships only
+  in non-js13k builds — the competition build must not make external requests (offline rule) and
+  falls back to the system emoji font.
 - Reuse translations keys / strings where possible; identical strings compress, but each unique
   string costs.
 - **The js13k build is one file, and that is a size decision.** `scripts/inline.js` folds the
