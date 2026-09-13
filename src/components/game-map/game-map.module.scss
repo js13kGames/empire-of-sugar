@@ -684,16 +684,15 @@ $board-column-max: calc(100dvh - 5rem);
     background: theme.$glass-4;
   }
 
-  // A token in the bottom-right corner of a tile, whatever the tile has to say there: written
-  // into --i by render() and drawn by whichever of the two things that use it set it. A rainbow
-  // says what it is earning, 💧 or 🍬; the tutorial's standing advice says 👆 on the piece to pick
-  // up, which is the one thing its amber ring cannot say. One rule for both, because they are
-  // the same object — a badge on a tile — and they can never land on one tile at once: nothing
-  // stands on a rainbow, so nothing is ever advised to be picked up off one.
+  // A token in the bottom-right corner of a tile, written into --i by render(): the tutorial's
+  // standing advice says 👆 on the piece to pick up, which is the one thing its amber ring cannot
+  // say. It used to be shared with a badge on every paying rainbow, 💧 or 🍬, which is why this is
+  // a rule about tile badges in general rather than about the advice.
   //
-  // Bottom rather than top, which is a fact about the glyph it labels and not a preference: the
-  // 🌈 is an arch, so its own emoji box is empty along the bottom on most fonts, and a badge put
-  // there sits under the arc instead of over it.
+  // Bottom rather than top. That was chosen for the rainbow's sake — a 🌈 is an arch, so its own
+  // emoji box is empty along the bottom on most fonts — and "on most fonts" is what eventually
+  // retired the rainbow's badge, since the competition build and the friends-&-family one do not
+  // load the same emoji font. It stays put for the 👆, which lands on pieces rather than arches.
   //
   // ::before, the price tag having ::after — which is what lets a rainbow the unicorn could step
   // onto carry both marks at once.

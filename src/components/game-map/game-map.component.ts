@@ -1067,31 +1067,24 @@ export function GameMapComponent(
         element.style.setProperty("--r", map.drops[PLAYER] < price[1] || map.candy[PLAYER] < price[2] ? SPEND_COLOR : "");
       }
 
-      // What this rainbow is filling, in the corner of its own tile: 💧 while it is on bare
-      // ground, 🍬 once a lollipop tree beside it is turning that light into sweets. The either/or
-      // is the thing the whole economy turns on, and until now it was only ever said in the colour
-      // of a beam and in the header's two "(+n)" — neither of which points at the tile that made
-      // the choice. The icon and not the amount: how much is already on the board as one beam
-      // line per point, the panel says the figure in words when the tile is tapped, and a number
-      // on every rainbow of a built-up 25x25 is thirty things to read.
-      //
-      // The player's own rainbows only, the same rule the glow on a working tree follows: a dark
-      // rainbow's income is the rival's, and badging it would be crediting the player with it.
+      // The badge in the corner of a tile. Rainbows carried one too — 💧 or 🍬, whichever the
+      // rainbow was filling — and it was cut on 2026-09-13 for saying less than the things
+      // already pointing at the same tile: a beam runs into every paying rainbow, its colour is
+      // the currency and its line count is the amount, and the bender casting it is either a ⛲
+      // or a 🍭 one tile away. The badge said the currency and not the amount, and it sat in the
+      // corner of the 🌈 on the strength of that emoji's box being empty along the bottom, which
+      // is a fact about a font rather than about the game: the two builds do not even load the
+      // same emoji font, and on some of them it clipped the arch.
       //
       // Written into --i, and the class is what gates the drawing — so a tile that has stopped
-      // being a rainbow needs nothing rubbed out, exactly as a stale --p on a tile that has
-      // stopped being a rainbow is a property nothing reads. See .badged in the stylesheet.
-      const isPaying = isVisible && tile.object === GameObjectType.RAINBOW;
-      element.classList.toggle(styles.badged, isPaying || isPointed);
-      // Indexed straight off the currency getRainbowIncome answers with: LOOT_EMOJIS is the
-      // drop and the sweet in that order, which is the whole reason ChestLoot is numbered the
-      // way it is (see game-objects.ts).
-      if (isPaying) element.style.setProperty("--i", `"${LOOT_EMOJIS[getRainbowIncome(map, getPosition(index))[0]]}"`);
+      // being advised needs nothing rubbed out, exactly as a stale --p on a tile that has
+      // stopped quoting a price is a property nothing reads. See .badged in the stylesheet.
+      element.classList.toggle(styles.badged, isPointed);
       // The finger the idle panel says "tap anything" with, said about one tile instead. It is
       // the same glyph on purpose: the panel's is the invitation in general and this is the
       // invitation pointed at something, and a second hand shape for the second one would be
       // two symbols for one idea.
-      else if (isPointed) element.style.setProperty("--i", `"${HINT_EMOJI}"`);
+      if (isPointed) element.style.setProperty("--i", `"${HINT_EMOJI}"`);
 
       // The fog belongs to the ground layer: under it there is nothing else to show.
       const hasLiving = isVisible && tile.living !== undefined;
@@ -1418,8 +1411,8 @@ export function GameMapComponent(
       // description leaves out: INFO_RAINBOW says what every rainbow does and the rule about
       // which currency is said at the source, two tiles away, so this line is where a tapped
       // rainbow answers "how much, in what" with a number instead of a rule to apply. Through
-      // getRainbowIncome, so the figure here, the badge in the tile's corner, the lines in the
-      // beam and the header's "(+n)" are one answer said four ways.
+      // getRainbowIncome, so the figure here, the lines in the beam and the header's "(+n)" are
+      // one answer said three ways.
       //
       // Appended rather than swapped in, the way the tub's second job is: the two together stay
       // inside $info-height, INFO_UNICORN_SHINE being the line that reserves it.
